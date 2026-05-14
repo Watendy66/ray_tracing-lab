@@ -4,7 +4,6 @@
 
 本实验基于经典的 **Whitted-Style 光线追踪**模型，使用 [Taichi](https://www.taichi-lang.org/) 框架实现了一个支持实时交互的光线追踪渲染器。通过发射次级射线（Secondary Rays），实现了硬阴影、理想镜面反射，以及选做的玻璃折射与抗锯齿效果。
 
-***
 
 ## 实验目标
 
@@ -12,7 +11,6 @@
 - **全局光照**：掌握通过次级射线实现硬阴影和理想镜面反射的方法
 - **GPU 编程思维**：将传统递归光线追踪算法改写为适合 GPU 并行计算的迭代（循环）模式
 
-***
 
 ## 文件结构
 
@@ -25,7 +23,6 @@
 └── README.md
 ```
 
-***
 
 ## 环境依赖
 
@@ -37,7 +34,6 @@ pip install taichi numpy
 - `ray_tracing.py` 使用 `ti.cpu` 后端，**无需显卡**，兼容所有设备
 - `ray_tracing_bonus.py` 使用 `ti.gpu` 后端，需要支持 Vulkan 或 CUDA 的 GPU
 
-***
 
 ## 运行方式
 
@@ -49,7 +45,7 @@ python ray_tracing.py
 python ray_tracing_bonus.py
 ```
 
-***
+
 
 ## 实验原理
 
@@ -91,7 +87,7 @@ for bounce in range(MAX_B):         # 上界必须为编译期常量
 
 $$\mathbf{P}\_{new} = \mathbf{P} + \mathbf{N} \times \epsilon \quad (\epsilon = 10^{-4})$$
 
-***
+
 
 ## 必做任务实现（`ray_tracing.py`）
 
@@ -148,7 +144,7 @@ base_col = white if (cx ^ cz) == 0 else black
 
 **棋盘格透视收缩**：地面格子在远处明显变密，正确呈现了透视投影的近大远小效果，说明交点的奇偶判断与相机空间映射均实现正确。
 
-***
+
 
 ## 选做扩展（`ray_tracing_bonus.py`）
 
@@ -195,7 +191,7 @@ pixels[px, py] = accum / float(n_samples)
 
 **MSAA 对边缘质量的提升**：相比必做版，球体轮廓处的锯齿明显减少，地面棋盘格与球体交界处的过渡也更平滑。开启 MSAA x4 后每帧计算量增加约 4 倍，但由于使用 GPU 后端，帧率仍保持在可交互水平，体现了 GPU 并行计算在这类密集采样场景下的优势。
 
-***
+
 
 ## 核心实现摘要
 
@@ -214,7 +210,7 @@ $$\text{Color} = k\_a \cdot I\_a + k\_d \cdot (N \cdot L) \cdot I\_d + k\_s \cdo
 
 其中 $H$ 为半程向量（Blinn-Phong 变体），高光指数 $n = 32$。
 
-***
+
 
 ## 参数配置参考
 
